@@ -72,31 +72,27 @@ app.get("/", (req, res) => {
 });
 
 app.get("/signup", (req, res) => {
-  res.send(`
-    create user
-    <form method="post" action="/signupSubmit">
-        <input name="name" type="text" placeholder="name">
-        <br>
-        <input name="email" type="email" placeholder="email">
-        <br>
-        <input name="password" type="password" placeholder="password">
-        <br>
-        <button>Submit</button>
-    </form>  
-  `);
+  if (req.session && req.session.authenticated) {
+    res.redirect("/");
+  } else {
+    res.send(`
+      create user
+      <form method="post" action="/signupSubmit">
+          <input name="name" type="text" placeholder="name">
+          <br>
+          <input name="email" type="email" placeholder="email">
+          <br>
+          <input name="password" type="password" placeholder="password">
+          <br>
+          <button>Submit</button>
+      </form>  
+    `);
+  }
 });
 
 app.get("/login", (req, res) => {
   if (req.session && req.session.authenticated) {
-    res.send(`
-      Hello, ${req.session.name}!
-      <form method="get" action="/members">
-          <button>Go to Members Area</button>
-      </form>
-      <form method="get" action="/logout">
-          <button>Logout</button>
-      </form>    
-    `);
+    res.redirect("/members");
   } else {
     res.send(`
       log in
