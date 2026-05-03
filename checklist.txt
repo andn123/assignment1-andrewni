@@ -2,6 +2,8 @@ Self-graded Assignment 1 Checklist
 
     Criteria	
     ========
+Student Name: Andrew Ni
+Student Set: 1C
 [x]  A home page links to signup and login, if not logged in; and links to members and signout, if logged in.
 [x]  A members page that displays 1 of 3 random images stored on the server.
 [x]  The members page will redirect to the home page if no valid session is found.
