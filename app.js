@@ -73,7 +73,7 @@ app.get("/", (req, res) => {
 
 app.get("/signup", (req, res) => {
   if (req.session && req.session.authenticated) {
-    res.redirect("/");
+    res.redirect("/members");
   } else {
     res.send(`
       create user
