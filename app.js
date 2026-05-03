@@ -35,6 +35,9 @@ let mongoStore = MongoStore.create({
   },
 });
 
+const PORT = process.env.PORT || 3000;
+const expireTime = 60 * 60 * 1000;
+
 app.use(
   session({
     secret: node_session_secret,
@@ -44,9 +47,6 @@ app.use(
     cookie: { maxAge: expireTime },
   }),
 );
-
-const PORT = process.env.PORT || 3000;
-const expireTime = 60 * 60 * 1000;
 
 app.get("/", (req, res) => {
   if (req.session && req.session.authenticated) {
