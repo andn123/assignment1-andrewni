@@ -169,6 +169,15 @@ app.post("/signupSubmit", async (req, res) => {
         <a href="/signup">Try again</a>`);
     return;
   }
+  const existingUser = await userCollection.findOne({ email: email });
+
+  if (existingUser) {
+    res.send(`
+        Email already exists. Please use another email.
+        <br><br>
+        <a href="/signup">Try again</a>`);
+    return;
+  }
 
   let hashedPassword = await bcrypt.hash(password, saltRounds);
   await userCollection.insertOne({
