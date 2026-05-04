@@ -130,7 +130,7 @@ app.post("/loginSubmit", async (req, res) => {
     res.redirect("/members");
   } else {
     res.send(`
-        Incorrect password.
+        Invalid email/password combination.
         <br><br>
         <a href="/login">Try again</a>`);
     return;
