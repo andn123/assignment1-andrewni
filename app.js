@@ -21,11 +21,6 @@ const mongodb_session_secret = process.env.MONGODB_SESSION_SECRET;
 const node_session_secret = process.env.NODE_SESSION_SECRET;
 
 const { database } = include("databaseConnection");
-/*
-(async () => {
-  await database.connect();
-})();
-*/
 const userCollection = database.db(mongodb_database).collection("users");
 
 let mongoStore = MongoStore.create({
@@ -72,10 +67,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/signup", (req, res) => {
-  if (req.session && req.session.authenticated) {
-    res.redirect("/members");
-  } else {
-    res.send(`
+  res.send(`
       create user
       <form method="post" action="/signupSubmit">
           <input name="name" type="text" placeholder="name">
@@ -87,14 +79,10 @@ app.get("/signup", (req, res) => {
           <button>Submit</button>
       </form>  
     `);
-  }
 });
 
 app.get("/login", (req, res) => {
-  if (req.session && req.session.authenticated) {
-    res.redirect("/members");
-  } else {
-    res.send(`
+  res.send(`
       log in
       <form method="post" action="/loginSubmit">
           <input name="email" type="email" placeholder="email">
@@ -104,7 +92,6 @@ app.get("/login", (req, res) => {
           <button>Submit</button>
       </form>  
     `);
-  }
 });
 
 app.post("/loginSubmit", async (req, res) => {
@@ -113,7 +100,7 @@ app.post("/loginSubmit", async (req, res) => {
 
   const schema = Joi.object({
     email: Joi.string().max(50).required(),
-    password: Joi.string().min(8).max(100).required(),
+    password: Joi.string().min(5).max(100).required(),
   });
 
   const validationResult = schema.validate({ email, password });
@@ -158,7 +145,7 @@ app.post("/signupSubmit", async (req, res) => {
   const schema = Joi.object({
     name: Joi.string().max(50).required(),
     email: Joi.string().max(50).required(),
-    password: Joi.string().min(8).max(100).required(),
+    password: Joi.string().min(5).max(100).required(),
   });
 
   const validationResult = schema.validate({ name, email, password });
